@@ -1,12 +1,4 @@
-import express from "express";
+import { Server } from "./models/server";
 
-const app = express();
-const port = 3000;
-
-app.get("/ping", (req, res) => {
-  res.send("pong");
-});
-
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-});
+const server = new Server();
+server.listen();
