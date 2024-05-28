@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import cors from "cors";
+import userRouter from "../routes/user";
 
 export class Server {
   private app: Express;
@@ -19,9 +20,7 @@ export class Server {
   }
 
   routes() {
-    this.app.get("/ping", (req, res) => {
-      res.send("pong");
-    });
+    this.app.use("/user", userRouter);
   }
 
   listen() {
