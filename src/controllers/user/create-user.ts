@@ -2,10 +2,23 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { db } from "../../db/db";
 import { user } from "../../db/schema";
+import { createUserSchema } from "../../types/user";
 
 export const createUserController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+
+    const validateFields = createUserSchema.safeParse({
+      email,
+      password
+    })
+
+    if(!validateFields.success){
+      return res.status(400).json({
+        message: "Not valid data",
+        error: validateFields.error
+      })
+    }
 
     const hashPassword = bcrypt.hashSync(password);
 
@@ -26,8 +39,15 @@ export const createUserController = async (req: Request, res: Response) => {
       user: result.at(0),
     });
   } catch (error) {
+    if((error as any)?.libsqlError){
+      return res.status(500).json({
+        message: "Email already taken",
+        error
+      });
+    }
     res.status(500).json({
       message: "Something wrong happen unfortunately",
+      error
     });
   }
 }
