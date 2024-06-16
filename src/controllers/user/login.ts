@@ -4,6 +4,7 @@ import { db } from "../../db/db";
 import { eq } from "drizzle-orm";
 import { user } from "../../db/schema";
 import bcrypt from 'bcryptjs';
+import { signToken } from "../../utils/token";
 
 export const loginController = async (req:Request,res:Response)=>{
   try {
@@ -25,7 +26,7 @@ export const loginController = async (req:Request,res:Response)=>{
     if(!result){
       return res.status(400).json({
         message: "Not valid credentials",
-        error: validFields.error
+        error: "Not valid credentials"
       })
     }
 
@@ -39,8 +40,11 @@ export const loginController = async (req:Request,res:Response)=>{
       })
     }
 
+    const token = signToken(id_user,email)
+
     return res.json({
       message: "Welcomed",
+      token,
       user: {
         id_user,
         email
