@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createUserController } from "../controllers/user/create-user";
+import { loginController } from "../controllers/user/login";
 
 
 const userRouter = Router();
@@ -11,6 +12,8 @@ userRouter.get("/", (req, res) => {
 });
 
 userRouter.post("/", createUserController);
+
+userRouter.post("/login", loginController);
 
 userRouter.put("/", (req, res) => {
   res.json({
