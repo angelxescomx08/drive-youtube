@@ -1,10 +1,10 @@
-//import 'dotenv/config';
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 import * as schema from './schema'
+import "dotenv/config"
 
 const client = createClient({
-  url: "file:C:/Users/USER/Desktop/web/youtube/drive/src/db/drive.db",
+  url: process.env.DATABASE_URL!,
   //authToken: process.env.TURSO_AUTH_TOKEN!,
 });
 
