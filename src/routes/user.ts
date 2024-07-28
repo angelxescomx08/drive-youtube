@@ -3,6 +3,7 @@ import { createUserController } from "../controllers/user/create-user";
 import { loginController } from "../controllers/user/login";
 import { getUsers } from "../controllers/user/list-users";
 import { validateToken } from "../middlewares/auth/validate-token";
+import { updateUserController } from "../controllers/user/update-user";
 
 
 const userRouter = Router();
@@ -13,11 +14,7 @@ userRouter.post("/", createUserController);
 
 userRouter.post("/login", loginController);
 
-userRouter.put("/", (req, res) => {
-  res.json({
-    message: "PUT",
-  });
-});
+userRouter.put("/:id_user", [validateToken],updateUserController);
 
 userRouter.delete("/", (req, res) => {
   res.json({
