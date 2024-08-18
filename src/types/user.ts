@@ -10,9 +10,9 @@ Tenga una longitud mínima de 8 caracteres.
  */
 
 export const userSchema = z.object({
-  id_user: z.string(),
+  id_user: z.string().uuid(),
   email: z.string().email(),
-  password: z.string().refine(password=>passwordRegex.test(password), "Not a valid password"),
+  password: z.string().refine(password => passwordRegex.test(password), "Not a valid password"),
 })
 
 export const createUserSchema = userSchema.omit({
