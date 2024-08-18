@@ -5,6 +5,7 @@ import { getUsers } from "../controllers/user/list-users";
 import { validateToken } from "../middlewares/auth/validate-token";
 import { updateUserController } from "../controllers/user/update-user";
 import { validRightUserMiddleware } from "../middlewares/auth/validate-right-user";
+import { deleteUserController } from "../controllers/user/delete-user";
 
 
 const userRouter = Router();
@@ -15,15 +16,16 @@ userRouter.post("/", createUserController);
 
 userRouter.post("/login", loginController);
 
-userRouter.put("/:id_user", 
-  [validateToken,validRightUserMiddleware],
+userRouter.put(
+  "/:id_user",
+  [validateToken, validRightUserMiddleware],
   updateUserController
 );
 
-userRouter.delete("/", (req, res) => {
-  res.json({
-    message: "DELETE",
-  });
-});
+userRouter.delete(
+  "/:id_user",
+  [validateToken, validRightUserMiddleware],
+  deleteUserController
+);
 
 export default userRouter;
