@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import userRouter from "../routes/user";
+import folderRouter from "../routes/folder";
 
 export class Server {
   private app: Express;
@@ -21,6 +22,7 @@ export class Server {
 
   routes() {
     this.app.use("/user", userRouter);
+    this.app.use("/folder", folderRouter)
   }
 
   listen() {
