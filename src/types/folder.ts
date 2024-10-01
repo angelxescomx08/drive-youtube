@@ -11,5 +11,10 @@ export const createFolderSchema = folderSchema.omit({
   id_folder: true
 })
 
+export const folderContentSchema = folderSchema.pick({
+  id_folder: true
+})
+
 export type typeFolder = z.infer<typeof folderSchema>
 export type typeCreateFolder = z.infer<typeof createFolderSchema>
+export type typeFolderContentSchema = z.infer<typeof folderContentSchema>
