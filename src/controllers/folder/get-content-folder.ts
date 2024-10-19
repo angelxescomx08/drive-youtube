@@ -2,7 +2,7 @@ import { LibsqlError } from "@libsql/client";
 import { Request, Response } from "express";
 import { folderContentSchema } from "../../types/folder";
 import { db } from "../../db/db";
-import { eq } from "drizzle-orm";
+import { eq, isNull, SQL } from "drizzle-orm";
 import { folder } from "../../db/schema";
 
 export const getContentFolderController = async (req: Request, res: Response) => {
@@ -10,19 +10,28 @@ export const getContentFolderController = async (req: Request, res: Response) =>
 
     const { id_folder } = req.params;
 
-    const validateFields = folderContentSchema.safeParse({
-      id_folder
-    })
+    let query: SQL<unknown>
 
-    if (!validateFields.success) {
-      return res.status(400).json({
-        message: "Not valid data",
-        error: validateFields.error
+    if (id_folder.toLocaleLowerCase() === "root") {
+      query = isNull(folder.id_parent)
+    } else {
+      const validateFields = folderContentSchema.safeParse({
+        id_folder
       })
+
+      if (!validateFields.success) {
+        return res.status(400).json({
+          message: "Not valid data",
+          error: validateFields.error
+        })
+      }
+
+      query = eq(folder.id_parent, id_folder)
     }
 
+
     const result = await db.query.folder.findMany({
-      where: eq(folder.id_parent, id_folder)
+      where: query
     })
 
     res.status(200).json({
