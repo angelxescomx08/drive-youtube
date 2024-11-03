@@ -15,6 +15,15 @@ export const folderContentSchema = folderSchema.pick({
   id_folder: true
 })
 
+export const updateFolderSchema = folderSchema.omit({
+  id_user: true
+}).partial({
+  folder_name: true,
+  id_parent: true
+})
+
+
 export type typeFolder = z.infer<typeof folderSchema>
 export type typeCreateFolder = z.infer<typeof createFolderSchema>
 export type typeFolderContentSchema = z.infer<typeof folderContentSchema>
+export type typeFolderUpdateSchema = z.infer<typeof updateFolderSchema>

@@ -3,6 +3,7 @@ import { createFolderController } from "../controllers/folder/create-folder";
 import { validateToken } from "../middlewares/auth/validate-token";
 import { getContentFolderController } from "../controllers/folder/get-content-folder";
 import { getFolderController } from "../controllers/folder/get-folder-controller";
+import { updateFolderController } from "../controllers/folder/update-folder-controller";
 
 const folderRouter = Router()
 
@@ -17,11 +18,7 @@ folderRouter.get(
 folderRouter.post("/", [validateToken], createFolderController);
 
 folderRouter.put(
-  "/", (req: Request, res: Response) => {
-    res.json({
-      message: "update folders"
-    })
-  });
+  "/:id_folder", [validateToken], updateFolderController);
 
 folderRouter.delete(
   "/", (req: Request, res: Response) => {
