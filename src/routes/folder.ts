@@ -4,6 +4,7 @@ import { validateToken } from "../middlewares/auth/validate-token";
 import { getContentFolderController } from "../controllers/folder/get-content-folder";
 import { getFolderController } from "../controllers/folder/get-folder-controller";
 import { updateFolderController } from "../controllers/folder/update-folder-controller";
+import { deleteFolderController } from "../controllers/folder/delete-folder-controller";
 
 const folderRouter = Router()
 
@@ -21,10 +22,6 @@ folderRouter.put(
   "/:id_folder", [validateToken], updateFolderController);
 
 folderRouter.delete(
-  "/", (req: Request, res: Response) => {
-    res.json({
-      message: "delete folders"
-    })
-  });
+  "/:id_folder", [validateToken], deleteFolderController);
 
 export default folderRouter
