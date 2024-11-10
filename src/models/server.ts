@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import userRouter from "../routes/user";
 import folderRouter from "../routes/folder";
+import fileRouter from "../routes/file";
 
 export class Server {
   private app: Express;
@@ -22,7 +23,8 @@ export class Server {
 
   routes() {
     this.app.use("/user", userRouter);
-    this.app.use("/folder", folderRouter)
+    this.app.use("/folder", folderRouter);
+    this.app.use("/file", fileRouter);
   }
 
   listen() {
