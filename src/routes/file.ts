@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { createFileController } from "../controllers/file/create-file-controller";
 
 
 const fileRouter = Router();
@@ -9,11 +10,7 @@ fileRouter.get("/", (req, res) => {
   })
 })
 
-fileRouter.post("/", (req, res) => {
-  res.json({
-    post: "OK"
-  })
-})
+fileRouter.post("/", createFileController)
 
 fileRouter.put("/", (req, res) => {
   res.json({
