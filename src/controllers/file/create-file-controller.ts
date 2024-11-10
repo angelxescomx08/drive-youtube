@@ -39,7 +39,7 @@ export const createFileController = async (req: Request, res: Response) => {
 
     res.json({
       message: "File created",
-      folder: result.at(0),
+      file: result.at(0),
     });
   } catch (error) {
     if (error instanceof LibsqlError) {
