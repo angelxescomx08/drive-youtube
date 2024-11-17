@@ -19,6 +19,7 @@ export class Server {
   applyMiddlewares() {
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.use("/uploads", express.static("uploads"))
   }
 
   routes() {

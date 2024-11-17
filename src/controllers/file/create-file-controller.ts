@@ -29,7 +29,8 @@ export const createFileController = async (req: Request, res: Response) => {
     }
 
     res.json({
-      message: "Ok"
+      message: "Ok",
+      url: `http://localhost:${3000}/uploads/${fileToSave.originalname}`
     })
 
     // const result = await db
