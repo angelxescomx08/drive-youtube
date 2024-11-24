@@ -1,13 +1,13 @@
 import { LibsqlError } from "@libsql/client";
 import { Request, Response } from "express";
 import { db } from "../../db/db";
-import { file, folder } from "../../db/schema";
-import { createFileSchema } from "../../types/file";
+import { file } from "../../db/schema";
+import { createFileSchema, FileS3 } from "../../types/file";
 
 export const createFileController = async (req: Request, res: Response) => {
   try {
     const { id_folder, file_name } = req.body;
-    const fileToSave = req.file
+    const fileToSave = req.file as unknown as FileS3
 
     if (!fileToSave) {
       return res.status(400).json({
@@ -28,32 +28,27 @@ export const createFileController = async (req: Request, res: Response) => {
       })
     }
 
+    const result = await db
+      .insert(file)
+      .values({
+        id_folder: id_folder === "null" ? null : id_folder,
+        file_name,
+        id_file: crypto.randomUUID(),
+        aws_key: fileToSave.key,
+        url: fileToSave.location,
+      })
+      .returning({
+        id_folder: file.id_folder,
+        file_name: file.file_name,
+        id_file: file.id_file,
+        aws_key: file.aws_key,
+        url: file.url,
+      });
+
     res.json({
-      message: "File created successfully",
-      url: `http://localhost:3000/uploads/${fileToSave.originalname}`
-    })
-
-    // const result = await db
-    //   .insert(file)
-    //   .values({
-    //     id_folder,
-    //     file_name,
-    //     id_file: crypto.randomUUID(),
-    //     aws_key: "",
-    //     url: "",
-    //   })
-    //   .returning({
-    //     id_folder: file.id_folder,
-    //     file_name: file.file_name,
-    //     id_file: file.id_file,
-    //     aws_key: file.aws_key,
-    //     url: file.url,
-    //   });
-
-    // res.json({
-    //   message: "File created",
-    //   file: result.at(0),
-    // });
+      message: "File created",
+      file: result.at(0),
+    });
   } catch (error) {
     if (error instanceof LibsqlError) {
       return res.status(500).json({
