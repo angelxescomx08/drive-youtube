@@ -8,6 +8,7 @@ export const uploadFileMiddleware = (
   const uploadMiddleware = upload.single("file")
 
   uploadMiddleware(req, res, (error) => {
+    console.log(error);
     if (error instanceof multer.MulterError) {
       return res.status(400).json({
         message: "An error happened",
