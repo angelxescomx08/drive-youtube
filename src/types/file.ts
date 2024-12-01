@@ -14,8 +14,13 @@ export const createFileSchema = fileSchema.omit({
   url: true
 })
 
+export const getFileSchema = fileSchema.pick({
+  id_file: true
+})
+
 export type typeFile = z.infer<typeof fileSchema>
 export type typeCreateFile = z.infer<typeof createFileSchema>
+export type typeGetFile = z.infer<typeof getFileSchema>
 
 export type FileS3 = {
   fieldname: string,

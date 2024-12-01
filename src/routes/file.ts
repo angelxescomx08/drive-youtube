@@ -1,17 +1,15 @@
 import { Router } from "express";
 import { createFileController } from "../controllers/file/create-file-controller";
 import { uploadFileMiddleware } from "../middlewares/files/upload-file-middleware";
+import { getFileController } from "../controllers/file/get-file-controller";
+import { validateToken } from "../middlewares/auth/validate-token";
 
 
 const fileRouter = Router();
 
-fileRouter.get("/", (req, res) => {
-  res.json({
-    get: "OK"
-  })
-})
+fileRouter.get("/:id_file", [validateToken], getFileController)
 
-fileRouter.post("/", [uploadFileMiddleware], createFileController)
+fileRouter.post("/", [validateToken,uploadFileMiddleware], createFileController)
 
 fileRouter.put("/", (req, res) => {
   res.json({
