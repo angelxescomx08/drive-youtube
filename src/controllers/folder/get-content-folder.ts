@@ -3,17 +3,19 @@ import { Request, Response } from "express";
 import { folderContentSchema } from "../../types/folder";
 import { db } from "../../db/db";
 import { eq, isNull, SQL } from "drizzle-orm";
-import { folder } from "../../db/schema";
+import { file, folder } from "../../db/schema";
 
 export const getContentFolderController = async (req: Request, res: Response) => {
   try {
 
     const { id_folder } = req.params;
 
-    let query: SQL<unknown>
+    let queryFolders: SQL<unknown>
+    let queryFiles: SQL<unknown>
 
     if (id_folder.toLocaleLowerCase() === "root") {
-      query = isNull(folder.id_parent)
+      queryFolders = isNull(folder.id_parent)
+      queryFiles = isNull(file.id_folder)
     } else {
       const validateFields = folderContentSchema.safeParse({
         id_folder
@@ -26,19 +28,23 @@ export const getContentFolderController = async (req: Request, res: Response) =>
         })
       }
 
-      query = eq(folder.id_parent, id_folder)
+      queryFolders = eq(folder.id_parent, id_folder)
+      queryFiles = eq(file.id_folder, id_folder)
     }
 
-
-    const result = await db.query.folder.findMany({
-      where: query
-    })
+    const [folders,files] = await Promise.all([
+      db.query.folder.findMany({
+        where: queryFolders
+      }),
+      db.query.file.findMany({
+        where: queryFiles
+      })
+    ])
 
     res.status(200).json({
       message: "Query successful",
-      folders: result,
-      //TODO: Pendiente de implementar
-      files: []
+      folders,
+      files
     })
 
   } catch (error) {
