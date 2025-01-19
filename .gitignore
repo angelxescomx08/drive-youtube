@@ -3,3 +3,4 @@ migrations
 drive.db
 .env
 uploads
+dist
