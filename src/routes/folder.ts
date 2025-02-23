@@ -1,27 +1,25 @@
-import { Request, Response, Router } from "express";
-import { createFolderController } from "../controllers/folder/create-folder";
-import { validateToken } from "../middlewares/auth/validate-token";
-import { getContentFolderController } from "../controllers/folder/get-content-folder";
-import { getFolderController } from "../controllers/folder/get-folder-controller";
-import { updateFolderController } from "../controllers/folder/update-folder-controller";
-import { deleteFolderController } from "../controllers/folder/delete-folder-controller";
+import { Request, Response, Router } from 'express';
+import { createFolderController } from '../controllers/folder/create-folder';
+import { deleteFolderController } from '../controllers/folder/delete-folder-controller';
+import { getContentFolderController } from '../controllers/folder/get-content-folder';
+import { getFolderController } from '../controllers/folder/get-folder-controller';
+import { updateFolderController } from '../controllers/folder/update-folder-controller';
+import { validateToken } from '../middlewares/auth/validate-token';
 
-const folderRouter = Router()
+const folderRouter = Router();
 
-folderRouter.get(
-  "/:id_folder", [validateToken], getFolderController
-);
+folderRouter.get('/:id_folder', [validateToken], getFolderController);
 
 folderRouter.get(
-  "/content/:id_folder", [validateToken], getContentFolderController
+	'/content/:id_folder',
+	[validateToken],
+	getContentFolderController,
 );
 
-folderRouter.post("/", [validateToken], createFolderController);
+folderRouter.post('/', [validateToken], createFolderController);
 
-folderRouter.put(
-  "/:id_folder", [validateToken], updateFolderController);
+folderRouter.put('/:id_folder', [validateToken], updateFolderController);
 
-folderRouter.delete(
-  "/:id_folder", [validateToken], deleteFolderController);
+folderRouter.delete('/:id_folder', [validateToken], deleteFolderController);
 
-export default folderRouter
+export default folderRouter;
