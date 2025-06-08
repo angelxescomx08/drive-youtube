@@ -25,7 +25,6 @@ export const folder = sqliteTable(
 		id_folder: text('id_folder', { length: 36 }).primaryKey(),
 		id_parent: text('id_parent', { length: 36 }).references(
 			(): AnySQLiteColumn => folder.id_folder,
-			{ onDelete: 'cascade', onUpdate: 'cascade' },
 		),
 		id_user: text('id_user', { length: 36 })
 			.references((): AnySQLiteColumn => user.id_user, {
@@ -49,7 +48,6 @@ export const file = sqliteTable(
 		id_file: text('id_file', { length: 36 }).primaryKey(),
 		id_folder: text('id_folder', { length: 36 }).references(
 			(): AnySQLiteColumn => folder.id_folder,
-			{ onDelete: 'cascade', onUpdate: 'cascade' },
 		),
 		file_name: text('file_name').notNull(),
 		url: text('url').notNull(),
