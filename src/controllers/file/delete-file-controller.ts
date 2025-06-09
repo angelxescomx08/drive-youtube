@@ -5,7 +5,7 @@ import type { Request, Response } from 'express';
 import { envs } from '../../config/env';
 import { db } from '../../db/db';
 import { file } from '../../db/schema';
-import { s3Client } from '../../lib/s3/s3-client';
+// import { s3Client } from '../../lib/s3/s3-client';
 import { getFileSchema } from '../../types/file';
 
 export const deleteFileController = async (req: Request, res: Response) => {
@@ -34,12 +34,12 @@ export const deleteFileController = async (req: Request, res: Response) => {
 			});
 		}
 
-		await s3Client.send(
-			new DeleteObjectCommand({
-				Bucket: envs.AWS_BUCKET_NAME,
-				Key: fileToDelete.aws_key,
-			}),
-		);
+		// await s3Client.send(
+		// 	new DeleteObjectCommand({
+		// 		Bucket: envs.AWS_BUCKET_NAME,
+		// 		Key: fileToDelete.aws_key,
+		// 	}),
+		// );
 
 		const result = await db
 			.delete(file)

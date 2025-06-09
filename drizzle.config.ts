@@ -9,7 +9,7 @@ export default {
   dialect: "sqlite",
   dbCredentials: {
     url: envs.DATABASE_URL,
-    authToken: envs.TURSO_AUTH_TOKEN,
+    // authToken: envs.TURSO_AUTH_TOKEN,
   },
   breakpoints: true,
   verbose: true,

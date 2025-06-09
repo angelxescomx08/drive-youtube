@@ -3,7 +3,7 @@ import express, { type Express } from 'express';
 import fileRouter from '../routes/file';
 import folderRouter from '../routes/folder';
 import userRouter from '../routes/user';
-import { envs } from '../config/env';
+// import { envs } from '../config/env';
 
 export class Server {
 	private app: Express;
@@ -11,7 +11,8 @@ export class Server {
 
 	constructor() {
 		this.app = express();
-		this.port = envs.PORT || 3000;
+		// this.port = envs.PORT || 3000;
+		this.port = 3000;
 
 		this.applyMiddlewares();
 		this.routes();
