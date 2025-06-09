@@ -17,6 +17,7 @@ EOF
 RUN npm install
 RUN npm run db:generate
 RUN npm run db:migrate
+RUN npm run seed
 
 EXPOSE 3000
 CMD ["npm", "run", "start"]
