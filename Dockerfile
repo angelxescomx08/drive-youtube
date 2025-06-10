@@ -3,6 +3,11 @@ FROM node:22.16-slim AS installer
 WORKDIR /app
 COPY . .
 
+FROM node:22.16-slim AS builder
+
+WORKDIR /app
+COPY --from=installer /app .
+
 RUN apt-get update \
  && apt-get install -y sqlite3 \
  && rm -rf /var/lib/apt/lists/*
