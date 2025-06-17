@@ -7,7 +7,10 @@ import { type FileS3, createFileSchema } from '../../types/file';
 export const createFileController = async (req: Request, res: Response) => {
 	try {
 		const { id_folder, file_name } = req.body;
-		const fileToSave = req.file as unknown as FileS3;
+		// const fileToSave = req.file as unknown as FileS3;
+		const fileToSave = req.file;
+
+		console.log({fileToSave});
 
 		if (!fileToSave) {
 			return res.status(400).json({
@@ -34,8 +37,9 @@ export const createFileController = async (req: Request, res: Response) => {
 				id_folder: id_folder === 'null' ? null : id_folder,
 				file_name,
 				id_file: crypto.randomUUID(),
-				aws_key: fileToSave.key,
-				url: fileToSave.location,
+				// aws_key: fileToSave.key,
+				aws_key: "",
+				url: fileToSave.path,
 			})
 			.returning({
 				id_folder: file.id_folder,
@@ -50,6 +54,7 @@ export const createFileController = async (req: Request, res: Response) => {
 			file: result.at(0),
 		});
 	} catch (error) {
+		console.log(error);
 		if (error instanceof LibsqlError) {
 			return res.status(500).json({
 				message: error.message,
