@@ -1,0 +1,14 @@
+services:
+  drive:
+    image: angelx105/drive
+    ports:
+      - "3000:3000"
+    volumes:
+      - drivedb:/app/data
+      - uploads:/app/uploads
+
+volumes:
+  drivedb:
+    driver: local
+  uploads:
+    driver: local
