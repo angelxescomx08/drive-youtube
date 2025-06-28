@@ -17,6 +17,10 @@ export const meController = async (req: Request, res: Response) => {
 
     const result = await db.query.user.findFirst({
       where: eq(user.id_user, userPayload.id_user),
+      columns: {
+        id_user: true,
+        email: true,
+      }
     });
 
     return res.json({
