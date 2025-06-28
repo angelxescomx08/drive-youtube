@@ -6,10 +6,13 @@ import { loginController } from '../controllers/user/login';
 import { updateUserController } from '../controllers/user/update-user';
 import { validRightUserMiddleware } from '../middlewares/auth/validate-right-user';
 import { validateToken } from '../middlewares/auth/validate-token';
+import { meController } from '../controllers/user/me';
 
 const userRouter = Router();
 
 userRouter.get('/', [validateToken], getUsers);
+
+userRouter.get('/me', [validateToken], meController);
 
 userRouter.post('/', createUserController);
 
