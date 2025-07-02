@@ -10,8 +10,6 @@ export const createFileController = async (req: Request, res: Response) => {
 		// const fileToSave = req.file as unknown as FileS3;
 		const fileToSave = req.file;
 
-		console.log({fileToSave});
-
 		if (!fileToSave) {
 			return res.status(400).json({
 				message: 'File is required',
@@ -39,7 +37,7 @@ export const createFileController = async (req: Request, res: Response) => {
 				id_file: crypto.randomUUID(),
 				// aws_key: fileToSave.key,
 				aws_key: "",
-				url: fileToSave.path,
+				url: `http://localhost:3000/${fileToSave.path}`,
 			})
 			.returning({
 				id_folder: file.id_folder,
