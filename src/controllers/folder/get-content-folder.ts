@@ -42,7 +42,10 @@ export const getFolderPathRaw = async (
   }>;
 
   if (!rows[0]) {
-    return null;
+    return {
+			path: '/root',
+			ids: '/root',
+		};
   }
 
   // path final
