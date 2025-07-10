@@ -9,7 +9,7 @@ export const createFolderController = async (req: Request, res: Response) => {
 		const { id_parent, id_user, folder_name } = req.body;
 
 		const validateFields = createFolderSchema.safeParse({
-			id_parent,
+			id_parent: id_parent === 'null' ? null : id_parent,
 			id_user,
 			folder_name,
 		});
@@ -26,7 +26,7 @@ export const createFolderController = async (req: Request, res: Response) => {
 			.values({
 				id_folder: crypto.randomUUID(),
 				id_user,
-				id_parent,
+				id_parent: id_parent === 'null' ? null : id_parent,
 				folder_name,
 			})
 			.returning({
